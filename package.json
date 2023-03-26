@@ -9,8 +9,20 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@fontsource/roboto": "^4.5.8",
+    "@mui/icons-material": "^5.11.11",
+    "@mui/material": "^5.11.14",
     "next": "13.2.4",
+    "openai": "^3.2.1",
+    "pdfjs": "^2.4.7",
+    "pdfjs-dist": "^3.4.120",
     "react": "18.2.0",
     "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "sass": "^1.60.0",
+    "sass-loader": "^10.4.1"
   }
 }

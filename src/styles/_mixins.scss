@@ -1,0 +1,12 @@
+@mixin desktop() {
+    @media (max-width: 600px){
+        @content;
+    }
+}
+
+@mixin flex-item-column() {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
