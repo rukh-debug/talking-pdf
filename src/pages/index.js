@@ -10,6 +10,7 @@ import { PdfContext } from "@/ContextProvider/pdfContext";
 
 import Chat from "@/components/Chat";
 import Uploader from "@/components/Uploader";
+import Footer from "@/components/Footer";
 
 import Header from "@/components/Header";
 
@@ -40,6 +41,7 @@ export default function Home() {
           <Header />
           <Uploader />
           {pdfContext?.name ? <Chat /> : null}
+          <Footer />
         </Container>
       </ThemeProvider>
     </>

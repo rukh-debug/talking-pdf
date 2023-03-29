@@ -111,6 +111,7 @@ function Chat() {
       }
 
       let remaining_part = chatHistory.concat(userInput);
+      console.log(arrayTop.concat(remaining_part));
       const response = await openai.createChatCompletion({
         model: "gpt-3.5-turbo",
         messages: arrayTop.concat(remaining_part),
@@ -121,6 +122,7 @@ function Chat() {
 
       setChatHistory([...updatedChatHistory, aiResponse]);
     } catch (error) {
+      setApiError(error.message);
       updatedChatHistory.pop();
       setChatHistory(updatedChatHistory);
       setThinking(false);
@@ -139,7 +141,24 @@ function Chat() {
   return (
     <Container fixed>
       {apiError ? <Error anyError={apiError} /> : null}
-      <Box ref={ref}>
+      <Box
+        // make this box scrollable
+        sx={{
+          height: "70vh",
+          overflowY: "scroll",
+          "&::-webkit-scrollbar": {
+            width: "0.4em",
+          },
+          "&::-webkit-scrollbar-track": {
+            "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "rgba(0,0,0,.1)",
+            outline: "1px solid slategrey",
+          },
+        }}
+        ref={ref}
+      >
         <List>
           {chatHistory.map((msg, i) => (
             <ListItem key={i}>
@@ -178,7 +197,7 @@ function Chat() {
           <Box
             component="form"
             sx={{
-              "& > :not(style)": { width: "75ch" },
+              width: "100%" 
             }}
             noValidate
             autoComplete="off"
@@ -195,14 +214,13 @@ function Chat() {
           </Box>
           <Button
             sx={{
-              "& > :not(style)": { width: "25ch" },
+              "& > :not(style)": { width: "100%" },
             }}
             variant="contained"
             endIcon={<SendIcon />}
             onClick={handleInputSubmit}
             disabled={thinking || inputValue.trim() === ""}
           >
-            Send
           </Button>
         </Stack>
       </Box>

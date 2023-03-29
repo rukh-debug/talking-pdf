@@ -10,7 +10,6 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 
 const Error = ({ anyError }) => {
-  console.log(anyError);
   const [errorOpen, setErrorOpen] = useState(true);
 
   return (
