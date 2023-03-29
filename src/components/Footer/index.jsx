@@ -21,7 +21,7 @@ const Footer = () => {
         }}
         elevation={1}
       >
-        <p>Talking PDF, made with Next.js & GPT-3</p>
+        <p>Talking PDF, powered by GPT3 & Next.js</p>
         <p>
           <a
             style={{

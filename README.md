@@ -24,9 +24,15 @@ $npm build && npm start
 
 ## License
 "Do whatever the hell you want with this code." 
+
     - MIT License
+
+## Security
+Since it's totally client side, there is no security issue, except the fact that you are sending your pdf file to OpenAI, which is a third party service. So, if you are concerned about your privacy, don't use this app.
 
 ## Credits
 openai for the awesome API
+
 @mui/material for the awesome UI components
+
 nextjs for the awesome framework
