@@ -165,13 +165,15 @@ function Chat() {
               <ListItemAvatar>
                 {msg.role === "user" ? (
                   <Avatar
+                    sx={{ bgcolor: "#d2d6d3" }}
                     alt="You"
-                    src="https://static.vecteezy.com/system/resources/previews/008/442/086/original/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"
+                    src="/user-icon.png"
                   />
                 ) : (
                   <Avatar
                     alt="PDF"
-                    src="https://static.vecteezy.com/system/resources/previews/006/662/139/original/artificial-intelligence-ai-processor-chip-icon-symbol-for-graphic-design-logo-web-site-social-media-mobile-app-ui-illustration-free-vector.jpg"
+                    sx={{ bgcolor: "#d2d6d3" }}
+                    src="/chatgpt-icon.png"
                   />
                 )}
               </ListItemAvatar>
@@ -186,7 +188,8 @@ function Chat() {
               <ListItemAvatar>
                 <Avatar
                   alt="PDF"
-                  src="https://static.vecteezy.com/system/resources/previews/006/662/139/original/artificial-intelligence-ai-processor-chip-icon-symbol-for-graphic-design-logo-web-site-social-media-mobile-app-ui-illustration-free-vector.jpg"
+                  sx={{ bgcolor: "#d2d6d3" }}
+                  src="/chatgpt-icon.png"
                 />
               </ListItemAvatar>
               <ListItemText primary={`PDF`} secondary={"Pdf is typing..."} />
@@ -197,7 +200,7 @@ function Chat() {
           <Box
             component="form"
             sx={{
-              width: "100%" 
+              width: "100%",
             }}
             noValidate
             autoComplete="off"
@@ -220,8 +223,7 @@ function Chat() {
             endIcon={<SendIcon />}
             onClick={handleInputSubmit}
             disabled={thinking || inputValue.trim() === ""}
-          >
-          </Button>
+          ></Button>
         </Stack>
       </Box>
     </Container>

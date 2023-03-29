@@ -1,5 +1,6 @@
 import { Box, Paper } from "@mui/material";
 import { GitHub } from "@mui/icons-material";
+import ModeSwitcher from "@/components/ModeSwitcher";
 
 const Footer = () => {
   return (
@@ -18,22 +19,29 @@ const Footer = () => {
         sx={{
           padding: 2,
           textAlign: "center",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-around",
         }}
-        elevation={1}
+        elevation={6}
       >
-        <p>Talking PDF, powered by GPT3 & Next.js</p>
-        <p>
-          <a
-            style={{
-              textDecoration: "none",
-              fontWeight: "bold",
-              fontSize: "1.3rem",
-            }}
-            href="https://github.com/slithery0/talking-pdf"
-          >
-            <GitHub />
-          </a>
-        </p>
+        <Box>
+          <p>Talking PDF, powered by GPT3 & Next.js</p>
+          <p>
+            <a
+              style={{
+                textDecoration: "none",
+                fontWeight: "bold",
+                fontSize: "1.3rem",
+              }}
+              href="https://github.com/slithery0/talking-pdf"
+            >
+              <GitHub />
+            </a>
+          </p>
+        </Box>
+
+        <ModeSwitcher />
       </Paper>
     </Box>
   );
