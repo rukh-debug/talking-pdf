@@ -2,7 +2,6 @@ import Head from "next/head";
 import Image from "next/image";
 import { useState, useContext } from "react";
 import { Inter } from "next/font/google";
-import styles from "@/styles/Home.module.scss";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider, createTheme } from "@mui/material/styles";

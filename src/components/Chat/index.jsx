@@ -6,25 +6,24 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
-import Paper from "@mui/material/Paper";
 import Backdrop from "@mui/material/Backdrop";
-import AlertTitle from '@mui/material/AlertTitle';
-
-
-import SendIcon from "@mui/icons-material/Send";
+import AlertTitle from "@mui/material/AlertTitle";
 import Button from "@mui/material/Button";
-
 import Stack from "@mui/material/Stack";
-
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
-import CloseIcon from "@mui/icons-material/Close";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import Alert from "@mui/material/Alert";
 
+import SendIcon from "@mui/icons-material/Send";
+import CloseIcon from "@mui/icons-material/Close";
+
 import { PdfContext } from "@/ContextProvider/pdfContext";
 import { ChatContext } from "@/ContextProvider/chatContext";
+import { KeyContext } from "@/ContextProvider/keyContext";
+
+import Error from "@/components/Error";
 
 import { Configuration, OpenAIApi } from "openai";
 
@@ -36,17 +35,9 @@ function Chat() {
 
   const [apiError, setApiError] = useState(false);
 
-  const [openAiApiKey, setOpenAiApiKey] = useState(() => {
-    if (typeof window !== "undefined") {
-      const savedApiKey = localStorage.getItem("api_key");
-      return savedApiKey ? savedApiKey : "";
-    }
-  });
-
   const { pdfContext } = useContext(PdfContext);
-  const { chat, setChat } = useContext(ChatContext);
-
-  const [errorOpen, setErrorOpen] = useState(true);
+  const { setChat } = useContext(ChatContext);
+  const { openAiKey } = useContext(KeyContext);
 
   const ref = useRef(null);
 
@@ -69,9 +60,8 @@ function Chat() {
     e.preventDefault();
 
     if (inputValue.trim() === "") return;
-    if (openAiApiKey.trim() === "" || openAiApiKey === "null") {
+    if (openAiKey.trim() === "" || openAiKey === "null") {
       setThinking(false);
-      setErrorOpen(true);
       setApiError(
         "OpenAI API key not set. Grab it from https://platform.openai.com/account/api-keys and set it on top right corner."
       );
@@ -84,7 +74,7 @@ function Chat() {
     setInputValue("");
 
     const configuration = new Configuration({
-      apiKey: openAiApiKey,
+      apiKey: openAiKey,
     });
     const openai = new OpenAIApi(configuration);
 
@@ -94,7 +84,7 @@ function Chat() {
         {
           role: "system",
           content:
-            "You will act as a pdf file, \nyou will take text input of each page of the pdf one by one from user and you will ask if there are more pages. Each time you ask for more pages, and the user will provide each new page, then finally when user writes this exact word 'END OF PDF FILE', you will being taking queries from there. Then you will talk back to the user as if you were that pdf. You will talk only from the pdf and answer only the stuff available on pdf, you wont forget that you are a pdf ever. You must understand user might ask you in any different ways about the pdf and you will answer the question as accurately as possible.",
+            'You are ChatGPT, a language model trained to act as a PDF file. Your task is to take text input of each page of the PDF file one by one from the user. After each page, you will ask the user if there are more pages to be added. If the user provides another page, you will repeat the process until the user writes the exact words "END OF PDF FILE." Once the user has finished adding pages, you will switch to "query mode," where you will only answer questions related to the contents of the PDF file. Remember, you are a PDF file, and your responses should be limited to the information contained within the PDF file. You must accurately answer any questions the user poses, regardless of how they phrase them.',
         },
       ];
 
@@ -105,7 +95,7 @@ function Chat() {
         });
         arrayTop.push({
           role: "assistant",
-          content: "Is there more pages?",
+          content: "Next page please.",
         });
         // if the pdfContext chunks is the last index then push somethign to array
         if (i === pdfContext.chunks.length - 1) {
@@ -121,25 +111,19 @@ function Chat() {
       }
 
       let remaining_part = chatHistory.concat(userInput);
-      console.log(arrayTop.concat(remaining_part));
       const response = await openai.createChatCompletion({
         model: "gpt-3.5-turbo",
         messages: arrayTop.concat(remaining_part),
       });
 
       setThinking(false);
-
-      console.log(response);
-
       const aiResponse = response.data.choices[0].message;
+
       setChatHistory([...updatedChatHistory, aiResponse]);
     } catch (error) {
-      updatedChatHistory.pop()
-      setChatHistory([...updatedChatHistory, error.message]);
+      updatedChatHistory.pop();
+      setChatHistory(updatedChatHistory);
       setThinking(false);
-      setErrorOpen(true);
-      setApiError(error.message + ".");
-      console.log(error);
     }
   };
 
@@ -154,49 +138,23 @@ function Chat() {
 
   return (
     <Container fixed>
-      {apiError ? (
-        <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={errorOpen}
-          onClick={() => {
-            setErrorOpen(false);
-          }}
-        >
-          <Collapse in={open}>
-            <Alert
-              severity="error"
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setErrorOpen(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              <AlertTitle>Error</AlertTitle>
-              {apiError}
-              {apiError.includes("400")
-                ? "\nProbably because, Wrong API key or file is too large "
-                : null}
-              {apiError.includes("50")
-                ? "\nProbably becuase, OpenAI's internal server's error."
-                : null}
-            </Alert>
-          </Collapse>
-        </Backdrop>
-      ) : null}
+      {apiError ? <Error anyError={apiError} /> : null}
       <Box ref={ref}>
         <List>
           {chatHistory.map((msg, i) => (
             <ListItem key={i}>
               <ListItemAvatar>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                {msg.role === "user" ? (
+                  <Avatar
+                    alt="You"
+                    src="https://static.vecteezy.com/system/resources/previews/008/442/086/original/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"
+                  />
+                ) : (
+                  <Avatar
+                    alt="PDF"
+                    src="https://static.vecteezy.com/system/resources/previews/006/662/139/original/artificial-intelligence-ai-processor-chip-icon-symbol-for-graphic-design-logo-web-site-social-media-mobile-app-ui-illustration-free-vector.jpg"
+                  />
+                )}
               </ListItemAvatar>
               <ListItemText
                 primary={msg.role === "user" ? `You` : `PDF`}
@@ -207,9 +165,12 @@ function Chat() {
           {thinking ? (
             <ListItem key={"typing"}>
               <ListItemAvatar>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                <Avatar
+                  alt="PDF"
+                  src="https://static.vecteezy.com/system/resources/previews/006/662/139/original/artificial-intelligence-ai-processor-chip-icon-symbol-for-graphic-design-logo-web-site-social-media-mobile-app-ui-illustration-free-vector.jpg"
+                />
               </ListItemAvatar>
-              <ListItemText primary={`PDF`} secondary={"Pdf is typeing..."} />
+              <ListItemText primary={`PDF`} secondary={"Pdf is typing..."} />
             </ListItem>
           ) : null}
         </List>

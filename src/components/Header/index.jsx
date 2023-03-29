@@ -8,7 +8,7 @@ import AppBar from "@mui/material/AppBar";
 import { Fingerprint, PictureAsPdf } from "@mui/icons-material";
 import TextField from "@mui/material/TextField";
 
-// import KeyContext from "@/ContextProvider/keyContext";
+import { KeyContext } from "@/ContextProvider/keyContext";
 
 import Collapse from "@mui/material/Collapse";
 import {
@@ -19,10 +19,8 @@ import {
   IconButton,
 } from "@mui/material";
 
-//  import header from ./header.style.jsx
-
 const Header = () => {
-  // const { openAiKey, setOpenAiKey } = useContext(KeyContext);
+  const { setOpenAiKey } = useContext(KeyContext);
   const [apiKey, setApiKey] = useState(
     typeof window !== "undefined" ? localStorage.getItem("api_key") : ""
   );
@@ -45,7 +43,7 @@ const Header = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("api_key", apiKey);
-      // setOpenAiKey(apiKey);
+      setOpenAiKey(apiKey);
     }
   }, [apiKey]);
 
@@ -101,7 +99,6 @@ const Header = () => {
                 id="OpenAI_api_key"
                 label="OpenAI API KEY"
                 variant="standard"
-                type={"password"}
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
                 onKeyDown={handleKeyDown}
