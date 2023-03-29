@@ -167,13 +167,13 @@ function Chat() {
                   <Avatar
                     sx={{ bgcolor: "#d2d6d3" }}
                     alt="You"
-                    src="/user-icon.png"
+                    src="/talking-pdf/user-icon.png"
                   />
                 ) : (
                   <Avatar
                     alt="PDF"
                     sx={{ bgcolor: "#d2d6d3" }}
-                    src="/chatgpt-icon.png"
+                    src="/talking-pdf/chatgpt-icon.png"
                   />
                 )}
               </ListItemAvatar>
@@ -189,7 +189,7 @@ function Chat() {
                 <Avatar
                   alt="PDF"
                   sx={{ bgcolor: "#d2d6d3" }}
-                  src="/chatgpt-icon.png"
+                  src="/talking-pdf/chatgpt-icon.png"
                 />
               </ListItemAvatar>
               <ListItemText primary={`PDF`} secondary={"Pdf is typing..."} />
