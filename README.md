@@ -6,7 +6,7 @@ A simple web app that takes pdf as input and let you talk with it through chat i
 
 ## How to run
 
-Visit [https://rubenk.com.np/talking-pdf](https://rubenk.com.np/talking-pdf)
+Visit [https://talkingpdf.rubenk.com.np/](https://talkingpdf.rubenk.com.np/)
 
 or Build it yourself
 
