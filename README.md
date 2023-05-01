@@ -4,7 +4,7 @@ A simple web app that takes pdf as input and let you talk with it through chat i
 
 ![Build Status](https://github.com/slithery0/talking-pdf/actions/workflows/nextjs.yml/badge.svg)
 
-## How to run
+## How to use
 
 Visit [https://talkingpdf.rubenk.com.np/](https://talkingpdf.rubenk.com.np/)
 
