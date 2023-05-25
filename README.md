@@ -19,7 +19,7 @@ $npm build && npm start
 
 ### Known Issues
 
-- Long pdf files will throw error due to max token limit by OpenAI API (I believe that's what it is)
+- Long pdf files will throw error due to max token limit by OpenAI API.
 - Sometimes the pdf file is not rendered properly, depends on the pdf file itself
 
 ## License
