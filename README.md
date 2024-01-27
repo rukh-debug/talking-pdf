@@ -2,7 +2,7 @@
 
 A simple web app that takes pdf as input and let you talk with it through chat interface.
 
-![Build Status](https://github.com/slithery0/talking-pdf/actions/workflows/nextjs.yml/badge.svg)
+![Build Status](https://github.com/rukh-debug/talking-pdf/actions/workflows/nextjs.yml/badge.svg)
 
 ## How to use
 
@@ -11,7 +11,7 @@ Visit [https://talkingpdf.rubenk.com.np/](https://talkingpdf.rubenk.com.np/)
 or Build it yourself
 
 ```
-$git clone https://github.com/slithery0/talking-pdf
+$git clone https://github.com/rukh-debug/talking-pdf
 $cd talking-pdf
 $npm install
 $npm build && npm start

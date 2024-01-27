@@ -34,7 +34,7 @@ const Footer = () => {
                 fontWeight: "bold",
                 fontSize: "1.3rem",
               }}
-              href="https://github.com/slithery0/talking-pdf"
+              href="https://github.com/rukh-debug/talking-pdf"
             >
               <GitHub />
             </a>
